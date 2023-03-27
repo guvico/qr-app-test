@@ -44,12 +44,12 @@
                 const get = window.navigator.ur
                 // const url = `http://?code=0389888952`
                 let query = getParameterByName('code') || null;
-                let url = `guvico-be-develop.up.railway.app/invite/set_invite`
+                let url = `https://guvico-be-develop.up.railway.app/invite/set_invite`
 
             if(query !== null) {
-              url = `guvico-be-develop.up.railway.app/invite/set_invite?code=${query}`
+              url = `https://guvico-be-develop.up.railway.app/invite/set_invite?code=${query}`
             } else {
-              url = `guvico-be-develop.up.railway.app/invite/set_invite`
+              url = `https://guvico-be-develop.up.railway.app/invite/set_invite`
             }
 
                   // console.log(url, 'url');
