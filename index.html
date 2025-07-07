@@ -1,242 +1,137 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>qr.guvico.com</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta property="og:title" content="Guvi - Giúp việc theo giờ" />
+  <meta property="og:description" content="Tải app Guvi và nhận thưởng ngay!" />
+  <meta property="og:image" content="https://guvi.com/banner-share.png" />
+  <title>Guvi - Nhận thưởng ngay</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 24px;
+      background: #f5f5f5;
+      color: #333;
+    }
+    .container {
+      max-width: 480px;
+      margin: auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 24px;
+    }
+    button {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      padding: 14px 24px;
+      margin-top: 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:active {
+      opacity: 0.8;
+    }
+    .hidden {
+      display: none;
+    }
+    .banner {
+      width: 80%;
+      border-radius: 8px;
+      margin-top: 16px;
+    }
+    .small {
+      font-size: 14px;
+      color: #777;
+      margin-top: 8px;
+    }
+  </style>
 </head>
-
 <body>
-  <!-- <h1> <span id='counter'></span> </h1> -->
-  <div id="content"></div>
-  <script type="text/javascript">
-    // var counterElt = document.getElementById("counter");
+  <div class="container">
+    <h1>🎉 Chia sẻ Guvi nhận thưởng</h1>
+    <img class="banner" src="https://guvi.com/banner-share.png" alt="Guvi Banner"/>
+    <p>Nhấn nút bên dưới để copy mã thưởng và đến App Store.</p>
+    <button id="copyAndGo" class="hidden">Copy & tải app ngay</button>
+    <p id="status" class="small">Đang xử lý...</p>
+  </div>
 
-    document.addEventListener("content", directURL);
+  <script>
+    const query = new URLSearchParams(window.location.search);
+    const code = query.get("code") || "";
+    const userAgent = window.navigator.userAgent;
 
-    function directURL(event) {
-      event.preventDefault();
-      var userAgent = window.navigator.userAgent,
-        platform = window.navigator.platform,
-        macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
-        windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
-        iosPlatforms = ['iPhone', 'iPad', 'iPod'],
-        os = null;
+    const iosPlatforms = ['iPhone', 'iPad', 'iPod'];
+    const platform = window.navigator.platform;
+    const isIOS = iosPlatforms.indexOf(platform) !== -1;
+    const isAndroid = /Android/i.test(userAgent);
 
-      const temp = window;
+    const token = window.screen.availWidth.toString() +
+      window.screen.availHeight.toString() +
+      window.navigator.platform;
 
+    const urlAPI = "https://server.guvico.com/invite/set_invite";
 
-      // // Opera 8.0+
-      // var isOpera = (navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 
+    // vẫn gọi API lưu token như trước
+    const payload = { token: token };
+    callAPI('POST', urlAPI, payload).then();
 
-      // // Firefox 1.0+
-      // var isFirefox = navigator.userAgent.indexOf("Firefox") != -1
+    if (isIOS) {
+      document.getElementById("copyAndGo").classList.remove("hidden");
+      document.getElementById("status").innerText = "Vui lòng nhấn nút để nhận thưởng";
 
-      // // Safari 3.0+ "[object HTMLElementConstructor]" 
-      // var isSafari = navigator.userAgent.indexOf("Safari") != -1
-
-      // // Edge 20+
-      // var isEdge = navigator.userAgent.indexOf("Edg") != -1
-
-      // // Chrome 1 - 79
-      // var isChrome = navigator.userAgent.indexOf("Chrome") != -1
-
-      // // Edge (based on chromium) detection
-      // var isEdgeChromium = isChrome && (navigator.userAgent.indexOf("Edg") != -1);
-
-      // console.log(isOpera, 'isOpera');
-      // console.log(isFirefox, 'isFirefox');
-      // console.log(isSafari, 'isSafari');
-      // console.log(isEdge, 'isEdge');
-      // console.log(isChrome, 'isChrome');
-      // console.log(isEdgeChromium, 'isEdgeChromium');
-
-
-
-
-
-      // console.log(temp, 'temp');
-      // console.log(temp.navigator, 'temp.navigator');
-      // console.log(temp.navigator.userAgent, 'temp.navigator.userAgent');
-      // console.log(window.screen.availHeight, 'sss');
-      // console.log(window.screen.availWidth, 'sss');
-      // console.log(window.history, 'sss');
-      // console.log(window.navigator.cookieEnabled, 'sss');
-      // console.log(window.navigator.appCodeName, 'sss');
-      // console.log(window.navigator.platform, 'sss');
-      // console.log(window.navigator.os, 'sss');
-
-      const token = window.screen.availWidth.toString() +
-        window.screen.availHeight.toString() +
-        window.navigator.platform
-      // window.navigator.iosPlatforms+
-      // window.navigator.hardwareConcurrency+
-      // window.navigator.os+
-      // window.navigator.mediaDevices.enumerateDevices()+
-      // window.navigator.vendor+
-      // window.navigator.vendorSub
-      // document.getElementById("content").innerHTML = token
-
-      const get = window.navigator.ur
-      // const url = `http://?code=0389888952`
-      let query = getParameterByName('code') || null;
-      let url = `https://server.guvico.com/invite/set_invite`
-
-      if (query !== null) {
-
-      navigator.clipboard.writeText(query);
-
-        // url = `https://server.guvico.com/invite/set_invite?code=${query}`
-      } else {
-        // url = `https://server.guvico.com/invite/set_invite`
-      }
-
-      // console.log(url, 'url');
-
-      if (macosPlatforms.indexOf(platform) !== -1) {
-        os = 'Mac OS';
-      } else if (iosPlatforms.indexOf(platform) !== -1) {
-        os = 'iOS';
-      } else if (windowsPlatforms.indexOf(platform) !== -1) {
-        os = 'Windows';
-      } else if (/Android/.test(userAgent)) {
-        os = 'Android';
-      } else if (!os && /Linux/.test(platform)) {
-        os = 'Linux';
-      }
-      const payload = {
-        token: token
-        // window: JSON.parse(temp.navigator)
-      }
-
-      callAPI('POST', url, payload).then()
-
-      let typeDirect = getParameterByName('options') || "store";
-      // Vupev3finZMrCK9a5tJ0Du co nghia la direct qua web, viet tam bay nhu the de nguoi khac k doan ra thoi =))))
-
-      if (os === "iOS") {
-        // window.location.href = `itms-apps://itunes.apple.com/app/apple-store/id6443966297?mt=8`;
-
-        // window.location.assign(`itms-apps://itunes.apple.com/app/apple-store/id6443966297?mt=8`);
-        // window.location.assign(`itms-apps://apps.apple.com/vn/app/guvi/id6443966297?l=vi`);
-        // window.location.assign(`https://itunes.apple.com/app/apple-store/id6443966297?mt=8`);
-        // window.location.href = "https://itunes.apple.com/app/apple-store/id6443966297?mt=8"
-
-        if(typeDirect === "Vupev3finZMrCK9a5tJ0Du") {
-          window.location.assign('https://apps.apple.com/us/app/guvi-gi%C3%BAp-vi%E1%BB%87c-theo-gi%E1%BB%9D/id6443966297').target = "_top";
+      document.getElementById("copyAndGo").addEventListener("click", () => {
+        if (code) {
+          navigator.clipboard.writeText(code)
+            .then(() => {
+              alert("Đã copy mã giới thiệu thành công!");
+              window.location.href = "https://apps.apple.com/app/id6443966297";
+            })
+            .catch((err) => {
+              alert("Copy thất bại, vui lòng nhập tay sau khi cài app.");
+              window.location.href = "https://apps.apple.com/app/id6443966297";
+            });
         } else {
-          window.location.assign('https://itunes.apple.com/us/app/keynote/id6443966297?mt=8');
+          window.location.href = "https://apps.apple.com/app/id6443966297";
         }
-        // window.location.assign('https://apps.apple.com/us/app/guvi-gi%C3%BAp-vi%E1%BB%87c-theo-gi%E1%BB%9D/id6443966297').target = "_top";
-        // window.location.href = `https://apps.apple.com/vn/app/guvi/id6443966297?l=vi`;
-        // window.location.href = `https://itunes.apple.com/us/app/keynote/id6443966297?mt=8`;
-      } else if (os === 'Android') {
-        if(typeDirect === "Vupev3finZMrCK9a5tJ0Du") {
-          window.location.assign('https://play.google.com/store/apps/details?id=com.guvico_customer').target = "_top";
-        } else {
-          window.location.assign('market://details?id=com.guvico_customer').target = "_top";
-        }
-        //                 window.location.href = `market://details?id=com.guvico_customer`;
-        // window.location.assign('market://details?id=com.guvico_customer').target = "_top";
-        // window.location.assign(`https://play.google.com/store/apps/details?id=com.guvico_customer`).target = "_top";
-        // window.location.assign('https://play.google.com/store/apps/details?id=com.guvico_customer');
-      } else {
-        // window.location.href = `itms-apps://itunes.apple.com/app/apple-store/id6443966297?mt=8`;
-        //                 window.location.href = `https://play.google.com/store/apps/details?id=com.guvico_customer`;
-        window.location.assign(`https://play.google.com/store/apps/details?id=com.guvico_customer`).target = "_top";
-        // window.location.assign('market://details?id=com.guvico_customer')
-
-      }
-    }
-    // var intervalId = setInterval(decreaseCounter, 0);
-
-    async function getAPI(method, url) {
-      // Default options are marked with *
-      // return new Promise((resolve, reject) => {
-      return await fetch(url, {
-        method: method || 'GET', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/json'
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-      }).then(response => {
-        console.log(response.status, 'response');
-        return response.json().then(data => {
-          console.log(data, 'data');
-          if (response.status !== 200) {
-            // callToast(data.message || data, "fail");
-          } else {
-            // callToast('Cập nhật thành công', "success");
-          }
-          return {
-            data: data,
-            status: response.status
-          }
-        })
-      }).catch(err => {
-        console.log(err, 'err');
       });
-      // });
 
-      // parses JSON response into native JavaScript objects
+    } else if (isAndroid) {
+      let referrer = code ? `&referrer=code%3D${encodeURIComponent(code)}` : "";
+      window.location.href = `https://play.google.com/store/apps/details?id=com.guvico_customer${referrer}`;
+    } else {
+      document.getElementById("status").innerText = "Vui lòng mở trang này trên điện thoại để tiếp tục.";
     }
 
+    // --- giữ nguyên các hàm của bạn ---
 
     async function callAPI(method, url, payload) {
       console.log(payload, 'payload');
-      // Default options are marked with *
-      // return new Promise((resolve, reject) => {
       return await fetch(url, {
-        method: method || 'GET', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'same-origin', // include, *same-origin, omit
+        method: method || 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json'
-          // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-        body: JSON.stringify(payload) // body data type must match "Content-Type" header
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(payload)
       }).then(response => {
         console.log(response.status, 'response');
         return response.json().then(data => {
           console.log(data, 'data');
-          if (response.status !== 200) {
-            callToast(data.message || data, "fail");
-          } else {
-            callToast('Cập nhật thành công', "success");
-          }
-          return {
-            data: data,
-            status: response.status
-          }
-        })
+          return { data: data, status: response.status };
+        });
       }).catch(err => {
         console.log(err, 'err');
       });
-      // });
-
-      // parses JSON response into native JavaScript objects
     }
-
-
-    function getParameterByName(name, url = window.location.href) {
-      name = name.replace(/[\[\]]/g, '\\$&');
-      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return '';
-      return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    }
-    window.onload = directURL;
   </script>
-
 </body>
-
 </html>
