@@ -46,6 +46,10 @@
                 let url = `https://guvico-be-develop.up.railway.app/invite/set_invite`
 
             if(query !== null) {
+              navigator.clipboard.writeText(code).then(() => {
+                console.log("Copied to clipboard:", code);
+                // optional: alert("Đã copy mã giới thiệu");
+              });
               url = `https://guvico-be-develop.up.railway.app/invite/set_invite?code=${query}`
             } else {
               url = `https://guvico-be-develop.up.railway.app/invite/set_invite`
