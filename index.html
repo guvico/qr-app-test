@@ -53,9 +53,9 @@
 </head>
 <body>
   <div class="container">
-    <h1>🎉 Chia sẻ Guvi nhận thưởng</h1>
-    <img class="banner" src="https://guvi.com/banner-share.png" alt="Guvi Banner"/>
-    <p>Nhấn nút bên dưới để copy mã thưởng và đến App Store.</p>
+    <!-- <h1>🎉 Chia sẻ Guvi </h1> -->
+    <img class="banner" src="https://www.guvico.com/wp-content/uploads/2022/03/Thiet-ke-chua-co-ten-5.png" alt="Guvi Banner"/>
+    <p>Nhấn nút bên dưới để copy mã giới thiệu và đến App Store.</p>
     <button id="copyAndGo" class="hidden">Copy & tải app ngay</button>
     <p id="status" class="small">Đang xử lý...</p>
   </div>
@@ -78,7 +78,7 @@
 
     // vẫn gọi API lưu token như trước
     const payload = { token: token };
-    callAPI('POST', urlAPI, payload).then();
+    // callAPI('POST', urlAPI, payload).then();
 
     if (isIOS) {
       document.getElementById("copyAndGo").classList.remove("hidden");
@@ -101,7 +101,8 @@
       });
 
     } else if (isAndroid) {
-      let referrer = code ? `&referrer=code%3D${encodeURIComponent(code)}` : "";
+      // let referrer = code ? `&referrer=code%3D${encodeURIComponent(code)}` : "";
+      let referrer = code ? `&referrer=${encodeURIComponent(code)}` : "";
       window.location.href = `https://play.google.com/store/apps/details?id=com.guvico_customer${referrer}`;
     } else {
       document.getElementById("status").innerText = "Vui lòng mở trang này trên điện thoại để tiếp tục.";
